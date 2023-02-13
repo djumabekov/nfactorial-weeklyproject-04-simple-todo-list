@@ -1,13 +1,293 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Kanit:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Urbanist:wght@100&display=swap');
+html, body{
+    width: 1440px;
+    height: 1000px;
+    background: #F1F1F1;
+    padding: 30px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+}
+
+.header-title{
+    width: 630px;
+    height: 38px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 38px;
+    display: flex;
+    align-items: center;
+    color: #151517;
+}
+
+.header-description{
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: #151517;
+    margin-top: 30px;
+}
+
+.nav{
+    display: flex;
+    margin-top: 100px;
+    width: 22%;
+    height: 40px;
+    justify-content: space-between;
+}
+
+.nav-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+    color: #081E34;
+    background: linear-gradient(0deg, rgba(8, 30, 52, 0.05), rgba(8, 30, 52, 0.05)), #F0F0F0;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-active{
+    background: rgba(8, 30, 52, 0.42);
+    color: #FFFFFF;
+}
+
+/* .add-to-to{
+
+} */
+
+.add-to-do-plus-button{
+    background-size: cover;
+    cursor: pointer;
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    left: 1308px;
+    top: 274px;
+    background-image: url(../public/assets/img/plus-btn.png);
+    border: none;
+}
+
+.add-to-do-modal-window{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    position: absolute;
+    left: 980px;
+    top: 80px;
+    background: #E4E6E7;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+    border-radius: 12px;
+}
+
+.hide{
+    display: none;
+}
+
+.add-to-do-modal-window-description{
+    width: 236px;
+    height: 22px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    color: #151517;
+}
+
+.add-to-do-modal-window-textarea{
+    width: 228px;
+    height: 100px;
+    background: #FFFFFF;
+    border-radius: 8px;
+    resize: none;
+    outline:none;
+    margin: auto; 
+    display: block;
+    padding: 20px;
+
+}
+
+.add-to-do-modal-window-add-button{
+    width: 76px;
+    height: 40px;
+    background-size: cover;
+    border-radius: 100px;
+    background-image: url(../public/assets/img/add-btn.png);
+    border: none;
+    margin-top: 1em;
+    cursor: pointer;
+}
+
+.to-do-content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 6em;
+}
+
+.to-do-content-title{
+    width: 1280px;
+    height: 28px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    color: #151517;
+}
+
+.to-do-content-devider{
+    width: 90%;
+    height: 2px;
+    background: #151517;
+    opacity: 0.2;
+    margin-top: 20px;
+}
+
+.to-do-list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 16px;
+    margin-top: 30px;
+    width: 50%;
+}
+
+.to-do-list-item{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.item-selected{
+    background: #E4E6E7;
+}
+
+.to-do-list-item-menu-button{
+    height: 32px;
+    background-repeat: no-repeat;
+    background-image: url(../public/assets/img/vector.png);
+    border: none;
+    cursor: pointer;
+}
+
+.to-do-list-item-checkbox{
+    height: 32px;
+    width: 32px;
+    background-size: cover;
+    background-image: url(../public/assets/img/checkbox.png);
+    border: none;
+    cursor: pointer;
+}
+
+.checkbox-checked{
+    height: 48px;
+    width: 48px;
+    background-size: cover;
+    background-image: url(../public/assets/img/checkbox-checked.png);
+    border: none;
+    margin: -8px -8px -8px -8px;
+}
+
+.to-do-list-item-description{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #151517;
+}
+
+.description-cross-out{
+    text-decoration: line-through;
+    color: #959595;
+}
+
+.to-do-list-menu-modal-window{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 58px;
+    height: auto;
+    width: 20%;
+    background: #E4E6E7;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.16);
+    border-radius: 12px
+}
+
+.to-do-list-menu-modal-window-item{
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    cursor: pointer;
+    width: auto;
+    height: 24px;
+    margin: 16px 66px 16px 16px;
+}
+
+.to-do-list-menu-modal-window-item-img{
+    height:24px                                  ;
+    width: 24px;
+    background-size: cover;
+    border: none;
+}
+
+.modal-window-item-img-trash{
+    background-image: url(../public/assets/img/trash.png);
+ 
+}
+
+.modal-window-item-img-back{
+    background-image: url(../public/assets/img/back.png);
+    }
+
+.to-do-list-menu-modal-window-item-description{
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #353535;
+    margin-left: 20px;
+}
+
+footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 90%;
+    border-radius: 32px 32px 0px 0px;
+    margin-top: 220px;
+}
+
+footer a{
+    color: gray;
 }
