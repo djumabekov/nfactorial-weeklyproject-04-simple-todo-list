@@ -1,0 +1,32 @@
+[
+    {
+      "id": 0,
+      "description": "Write Essay",
+      "status": 0,
+      "isChecked": false
+    },
+    {
+      "id": 1,
+      "description": "One Hour CSS Course Online",
+      "status": 0,
+      "isChecked": false
+    },
+    {
+      "id": 2,
+      "description": "Buy One Way Tickets to San Fransico",
+      "status": 0,
+      "isChecked": false
+    },
+    {
+      "id": 3,
+      "description": "Go to Gym",
+      "status": 0,
+      "isChecked": false
+    },
+    {
+      "id": 4,
+      "description": "Buy Groceries",
+      "status": 0,
+      "isChecked": false
+    }
+  ]

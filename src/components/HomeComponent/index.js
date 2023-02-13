@@ -4,6 +4,7 @@ import Header from '../HeaderComponent';
 import Nav from '../NavComponent/';
 import ToDoContent from '../ToDoContentComponent/';
 import MenuModalWindow from '../MenuModalWindowComponent/';
+import fakeData from '../../data/data.json';
 
 class Home extends React.Component {
   // статусы списка задач
@@ -21,41 +22,14 @@ class Home extends React.Component {
       currentActiveNavButtonId: this.constructor.statuses.TODO, // текущая активная вкладка (по умолчанию первая)
       isShowMenu: false, // переключатель показа модального окна меню (по умолчанию скрыта)
       menuItemId: -1, // id нажатой кнопки модального окна меню (по умолчанию никакая кнопка не нажата)
-
-      // список задач
-      toDoList: [
-        {
-          id: 0,
-          description: 'Write Essay',
-          status: this.constructor.statuses.TODO,
-          isChecked: false,
-        },
-        {
-          id: 1,
-          description: 'One Hour CSS Course Online',
-          status: this.constructor.statuses.TODO,
-          isChecked: false,
-        },
-        {
-          id: 2,
-          description: 'Buy One Way Tickets to San Fransico',
-          status: this.constructor.statuses.TODO,
-          isChecked: false,
-        },
-        {
-          id: 3,
-          description: 'Go to Gym',
-          status: this.constructor.statuses.TODO,
-          isChecked: false,
-        },
-        {
-          id: 4,
-          description: 'Buy Groceries',
-          status: this.constructor.statuses.TODO,
-          isChecked: false,
-        },
-      ],
+      toDoList: [], // список задач
     };
+  }
+
+  // после рендера компонента подтягивает, если есть, данные с localstorage, иначе - фейковые
+  componentDidMount() {
+    const data = JSON.parse(localStorage.getItem('toDoList')) || fakeData;
+    this.setState({ toDoList: data });
   }
 
   // обработчик нажатия кнопки показа модального окна меню
@@ -87,6 +61,12 @@ class Home extends React.Component {
     }
   };
 
+  // функция сохранения изменений задач в state и localstorage
+  saveUpdateToDoList = (obj) => {
+    this.setState(obj);
+    localStorage.setItem('toDoList', JSON.stringify(obj.toDoList));
+  };
+
   // функция производит изменения в списке задач в зависимости от нажатой кнопки модального окна меню
   menuItemOperation = (buttonId, status) => {
     const updatedToDoList = this.state.toDoList.map((item) => {
@@ -100,7 +80,7 @@ class Home extends React.Component {
         return { ...item };
       }
     });
-    this.setState({ toDoList: updatedToDoList, isShowMenu: false });
+    this.saveUpdateToDoList({ toDoList: updatedToDoList, isShowMenu: false });
   };
 
   // обработчик нажатия отметки задачи
@@ -119,7 +99,7 @@ class Home extends React.Component {
         return { ...item };
       }
     });
-    this.setState({ toDoList: updatedItem });
+    this.saveUpdateToDoList({ toDoList: updatedItem });
   };
 
   // обработчик нажания кнопок навигации
