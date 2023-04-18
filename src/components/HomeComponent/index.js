@@ -5,6 +5,7 @@ import Nav from '../NavComponent/';
 import ToDoContent from '../ToDoContentComponent/';
 import MenuModalWindow from '../MenuModalWindowComponent/';
 import fakeData from '../../data/data.json';
+import axios from 'axios';
 
 class Home extends React.Component {
   // статусы списка задач
@@ -26,10 +27,18 @@ class Home extends React.Component {
     };
   }
 
-  // после рендера компонента подтягивает, если есть, данные с localstorage, иначе - фейковые
+  // после рендера компонента подтягивает, если есть, данные с mongodb, иначе - фейковые
   componentDidMount() {
-    const data = JSON.parse(localStorage.getItem('toDoList')) || fakeData;
-    this.setState({ toDoList: data });
+    axios
+      .get(`http://localhost:8000/`)
+      .then((res) => {
+        console.log('res.data', res.data);
+        const data = res.data || fakeData;
+        this.setState({ toDoList: data });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   // обработчик нажатия кнопки показа модального окна меню
@@ -64,13 +73,12 @@ class Home extends React.Component {
   // функция сохранения изменений задач в state и localstorage
   saveUpdateToDoList = (obj) => {
     this.setState(obj);
-    localStorage.setItem('toDoList', JSON.stringify(obj.toDoList));
   };
 
   // функция производит изменения в списке задач в зависимости от нажатой кнопки модального окна меню
   menuItemOperation = (buttonId, status) => {
     const updatedToDoList = this.state.toDoList.map((item) => {
-      if (item.id === +this.state.menuItemId) {
+      if (item._id === this.state.menuItemId) {
         return {
           ...item,
           status: status,
@@ -81,12 +89,21 @@ class Home extends React.Component {
       }
     });
     this.saveUpdateToDoList({ toDoList: updatedToDoList, isShowMenu: false });
+    const item = updatedToDoList.find((item) => item._id === this.state.menuItemId);
+    axios
+      .patch(`http://localhost:8000/update/${item._id}`, item)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // обработчик нажатия отметки задачи
   handleClickCheckItem = (id) => {
     const updatedItem = this.state.toDoList.map((item) => {
-      if (item.id === Number(id)) {
+      if (item._id === id) {
         return {
           ...item,
           status:
@@ -100,6 +117,15 @@ class Home extends React.Component {
       }
     });
     this.saveUpdateToDoList({ toDoList: updatedItem });
+    const item = updatedItem.find((item) => item._id === id);
+    axios
+      .patch(`http://localhost:8000/update/${item._id}`, item)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // обработчик нажания кнопок навигации
@@ -111,25 +137,31 @@ class Home extends React.Component {
   };
 
   // обработчик нажания кнопки добавления задачи
-  handleClickAddToDoButton = (newToDoObj) => {
+  handleClickAddToDoButton = async (newToDoObj) => {
     if (newToDoObj !== null) {
-      this.setState({
-        toDoList: [
-          ...this.state.toDoList,
-          {
-            id: this.state.toDoList.length,
-            isChecked: false,
-            status: this.constructor.statuses.TODO,
-            ...newToDoObj,
-          },
-        ],
-      });
+      await axios
+        .post(`http://localhost:8000/todo`, newToDoObj)
+        .then((res) => {
+          console.log(res);
+          this.saveUpdateToDoList({
+            toDoList: [
+              ...this.state.toDoList,
+              {
+                isChecked: false,
+                ...res.data,
+              },
+            ],
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   };
 
   // функция возвращает отсортированный список задач в зависимости от текущей вкладки
   getFilteredToDoList = () => {
-    const filtereToDoList = this.state.toDoList.filter((toDo) => {
+    const filteredToDoList = this.state.toDoList.filter((toDo) => {
       switch (this.state.currentActiveNavButtonId) {
         case 0:
           return (
@@ -145,7 +177,7 @@ class Home extends React.Component {
           return toDo.status === this.constructor.statuses.TODO;
       }
     });
-    return filtereToDoList;
+    return filteredToDoList;
   };
 
   render() {

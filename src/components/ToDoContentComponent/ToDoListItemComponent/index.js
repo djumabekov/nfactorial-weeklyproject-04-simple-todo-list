@@ -7,11 +7,11 @@ class ToDoListItem extends React.Component {
     return (
       <li className="to-do-list-item">
         <ShowMenuButton
-          id={this.props.item.id}
+          id={this.props.item._id}
           handleClickShowMenu={this.props.handleClickShowMenu}
         />
         <CheckBoxButton
-          id={this.props.item.id}
+          id={this.props.item._id}
           handleClickCheckItem={this.props.handleClickCheckItem}
           isChecked={this.props.item.isChecked}
           currentActiveNavButtonId={this.props.currentActiveNavButtonId}
